@@ -205,7 +205,7 @@ function createStyleSheet (media, nonce) {
   document.querySelector('head').appendChild(style);
 
   return style.sheet ? style.sheet : style.styleSheet;
-}
+};
 
 // cross browsers addRule method
 function addCSSRule(sheet, selector, rules, index) {
@@ -449,7 +449,7 @@ function Events() {
       }
     }
   };
-}
+};
 
 function jsTransform(element, attr, prefix, postfix, to, duration, callback) {
   var tick = Math.min(duration, 10),
@@ -985,7 +985,7 @@ var tns = function(options) {
     width = rect.right - rect.left;
     div.remove();
     if (width) {
-      return width;
+        return width;
     } else if (null !== el.parentNode.parentNode) {
         return getClientWidth(el.parentNode);
     }
