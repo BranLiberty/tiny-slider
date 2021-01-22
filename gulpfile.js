@@ -3,7 +3,7 @@ const resolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 
 const gulp = require('gulp');
-const packages = require('/www/package.json');
+const packages = require('./package.json');
 const $ = require('gulp-load-plugins')({
   config: packages
 });
@@ -120,13 +120,13 @@ gulp.task('helper-ie8', function () {
   });
 });
 
-gulp.task('editPro', ['script'], function() {
+gulp.task('editPro', gulp.series('script', function() {
   return gulp.src(pathDest + libName + '.js')
     .pipe($.change(function (content) {
       return 'var tns = (function (){\n' + content.replace('export { tns }', 'return tns') + '})();';
     }))
     .pipe(gulp.dest(pathDest))
-});
+}));
 
 gulp.task('makeDevCopy', function() {
   return gulp.src(pathSrc + script)
@@ -139,13 +139,13 @@ gulp.task('makeDevCopy', function() {
     .pipe(gulp.dest(pathSrc))
 });
 
-gulp.task('min', ['editPro'], function () {
+gulp.task('min', gulp.series('editPro', function () {
   return gulp.src(pathDest + '*.js')
     .pipe($.sourcemaps.init())
     .pipe($.uglify())
     .pipe($.sourcemaps.write('../' + sourcemapsDest))
     .pipe(gulp.dest(pathDest + 'min'))
-})
+}));
 
 // browser-sync
 gulp.task('server', function() {
@@ -190,18 +190,18 @@ gulp.task('server', function() {
   gulp.watch(pathSrc + sassFile, function (e) {
     sassTask(pathSrc + sassFile, pathDest);
   });
-  gulp.watch(pathSrc + script, ['makeDevCopy']);
-  gulp.watch(scriptSources, ['min']);
-  gulp.watch(pathSrc + helperIEScript, ['helper-ie8']);
+  gulp.watch(pathSrc + script, gulp.series('makeDevCopy'));
+  gulp.watch(scriptSources, gulp.series('min'));
+  gulp.watch(pathSrc + helperIEScript, gulp.series('helper-ie8'));
   // gulp.watch([pathTest + testScript], ['test']);
   gulp.watch(['**/*.html', pathTest + '*.js', '!' + pathTest + 'tests-async.js', pathDest + '*.css', pathDest + 'min/*.js']).on('change', browserSync.reload);
 });
 
 // Default Task
-gulp.task('default', [
+gulp.task('default', gulp.series(
   // 'sass',
   // 'min',
   // 'helper-ie8',
   // 'makeDevCopy',
-  'server', 
-]);  
+  'server',
+));

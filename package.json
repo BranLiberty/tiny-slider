@@ -36,11 +36,23 @@
   "homepage": "https://github.com/ganlanyuan/tiny-slider#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "@babel/core": "^7.12.10",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "nightwatch": "^1.3.5",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "browser-sync": "^2.26.13",
+    "fs": "^0.0.1-security",
+    "gulp": "^4.0.2",
+    "gulp-change": "^1.0.2",
+    "gulp-load-plugins": "^2.0.6",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "nunjucks": "^3.2.2",
+    "path": "^0.12.7",
+    "rollup": "^2.37.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
   },
   "browserify": {
     "transform": [
